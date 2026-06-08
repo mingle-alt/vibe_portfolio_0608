@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Vibe Coding Portfolio</title>
+  <link rel="stylesheet" href="./style.css" />
+</head>
+<body>
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="logo">V</span>
+      <div>
+        <strong>Vibe Portfolio</strong>
+        <small>학습 결과물 관리</small>
+      </div>
+    </div>
+    <nav>
+      <a href="#dashboard">대시보드</a>
+      <a href="#projects">결과물 등록</a>
+      <a href="#daily">Daily Loop</a>
+      <a href="#weekly">Weekly Loop</a>
+      <a href="#tasks">개선 과제</a>
+      <a href="#timeline">타임라인</a>
+    </nav>
+    <button id="exportBtn" class="ghost">데이터 내보내기</button>
+    <button id="clearBtn" class="danger">전체 초기화</button>
+  </aside>
+
+  <main class="app">
+    <section class="hero">
+      <p class="eyebrow">VIBE CODING PORTFOLIO SYSTEM</p>
+      <h1>실습 결과물과 성장 과정을 한 곳에 누적합니다.</h1>
+      <p>프로젝트, 회고, 문제 해결 과정, 기술스택, 개선 과제를 직접 입력하고 브라우저에 저장합니다.</p>
+    </section>
+
+    <section id="dashboard" class="section">
+      <div class="section-head">
+        <div>
+          <p class="eyebrow">DASHBOARD</p>
+          <h2>성장 대시보드</h2>
+        </div>
+        <span id="lastSaved" class="muted"></span>
+      </div>
+      <div class="stats-grid">
+        <article class="stat"><span>총 결과물</span><strong id="projectCount">0</strong></article>
+        <article class="stat"><span>Daily 회고</span><strong id="dailyCount">0</strong></article>
+        <article class="stat"><span>Weekly 회고</span><strong id="weeklyCount">0</strong></article>
+        <article class="stat"><span>총 학습 시간</span><strong id="totalHours">0h</strong></article>
+        <article class="stat"><span>미해결 과제</span><strong id="openTaskCount">0</strong></article>
+        <article class="stat"><span>해결 과제</span><strong id="doneTaskCount">0</strong></article>
+      </div>
+      <div class="panel">
+        <h3>기술스택 사용 빈도</h3>
+        <div id="skillChart" class="skill-chart empty">아직 등록된 기술스택이 없습니다.</div>
+      </div>
+    </section>
+
+    <section id="projects" class="section two-col">
+      <div class="panel form-panel">
+        <p class="eyebrow">PROJECT CRUD</p>
+        <h2>결과물 등록</h2>
+        <form id="projectForm">
+          <input type="hidden" id="projectId" />
+          <label>결과물 제목<input id="projectTitle" required placeholder="예: 공부기록 웹페이지" /></label>
+          <label>날짜<input id="projectDate" type="date" required /></label>
+          <label>주차<input id="projectWeek" type="number" min="1" placeholder="예: 2" /></label>
+          <label>기술스택<input id="projectSkills" placeholder="HTML, CSS, JavaScript" /></label>
+          <label>배포 링크<input id="projectDemo" type="url" placeholder="https://..." /></label>
+          <label>GitHub 링크<input id="projectGithub" type="url" placeholder="https://github.com/..." /></label>
+          <label>썸네일 이미지 URL<input id="projectImage" type="url" placeholder="https://..." /></label>
+          <label>설명<textarea id="projectDesc" rows="3" placeholder="무엇을 만들었는지 작성"></textarea></label>
+          <label>회고<textarea id="projectReview" rows="3" placeholder="왜 만들었고 무엇을 개선했는지 작성"></textarea></label>
+          <button class="primary" type="submit">저장</button>
+          <button class="ghost" type="button" id="cancelProjectEdit">수정 취소</button>
+        </form>
+      </div>
+      <div class="panel">
+        <div class="list-head">
+          <h2>결과물 목록</h2>
+          <select id="weekFilter"><option value="all">전체 주차</option></select>
+        </div>
+        <div id="projectList" class="card-list empty">아직 등록된 결과물이 없습니다.</div>
+      </div>
+    </section>
+
+    <section id="daily" class="section two-col">
+      <div class="panel form-panel">
+        <p class="eyebrow">DAILY FEEDBACK LOOP</p>
+        <h2>오늘 실습 후 5분 점검</h2>
+        <form id="dailyForm">
+          <label>날짜<input id="dailyDate" type="date" required /></label>
+          <label>오늘 만든 결과물<input id="dailyProject" placeholder="결과물명" /></label>
+          <label>오늘 배운 것<textarea id="dailyLearned" required rows="3"></textarea></label>
+          <label>막힌 점<textarea id="dailyBlocked" rows="3"></textarea></label>
+          <label>해결 방법<textarea id="dailySolved" rows="3"></textarea></label>
+          <label>내일 개선할 점<textarea id="dailyNext" rows="3" placeholder="저장 시 개선 과제로 자동 등록됩니다."></textarea></label>
+          <label>학습 시간<input id="dailyHours" type="number" min="0" step="0.5" placeholder="2" /></label>
+          <button class="primary" type="submit">Daily 저장</button>
+        </form>
+      </div>
+      <div class="panel">
+        <h2>Daily 기록</h2>
+        <div id="dailyList" class="card-list empty">아직 Daily 기록이 없습니다.</div>
+      </div>
+    </section>
+
+    <section id="weekly" class="section two-col">
+      <div class="panel form-panel">
+        <p class="eyebrow">WEEKLY FEEDBACK LOOP</p>
+        <h2>주간 회고</h2>
+        <form id="weeklyForm">
+          <label>주차<input id="weeklyWeek" type="number" min="1" required /></label>
+          <label>대표 결과물<input id="weeklyProject" /></label>
+          <label>가장 많이 사용한 기술<input id="weeklySkill" /></label>
+          <label>가장 어려웠던 문제<textarea id="weeklyProblem" rows="3"></textarea></label>
+          <label>가장 성장한 부분<textarea id="weeklyGrowth" rows="3"></textarea></label>
+          <label>다음 주 목표<textarea id="weeklyGoal" rows="3"></textarea></label>
+          <button class="primary" type="submit">Weekly 저장</button>
+        </form>
+      </div>
+      <div class="panel">
+        <h2>Weekly 기록</h2>
+        <div id="weeklyList" class="card-list empty">아직 Weekly 기록이 없습니다.</div>
+      </div>
+    </section>
+
+    <section id="tasks" class="section">
+      <div class="section-head"><div><p class="eyebrow">IMPROVEMENT TASKS</p><h2>개선 과제 추적</h2></div></div>
+      <div id="taskList" class="task-list empty">Daily Loop에서 “내일 개선할 점”을 저장하면 자동으로 과제가 생성됩니다.</div>
+    </section>
+
+    <section id="timeline" class="section">
+      <div class="section-head"><div><p class="eyebrow">TIMELINE</p><h2>일자별·주차별 타임라인</h2></div></div>
+      <div id="timelineList" class="timeline empty">아직 타임라인 데이터가 없습니다.</div>
+    </section>
+  </main>
+
+  <script src="./script.js"></script>
+</body>
+</html>
